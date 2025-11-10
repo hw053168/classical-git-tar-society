@@ -12,18 +12,18 @@ body {
 .app-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   min-height: 100vh;
 }
 
 .app-header {
-  width: 90%;
-  max-width: 1200px;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start; /* Align items to the left */
   align-items: center;
-  padding: 20px;
+  gap: 20px; /* Space between title and wallet button */
+  padding: 20px 40px;
   border-bottom: 2px solid #444;
+  background-color: #1e2228;
 }
 
 .app-header h1 {
@@ -31,10 +31,81 @@ body {
   margin: 0;
 }
 
-main {
-  width: 90%;
-  max-width: 1200px;
+/* App Body with Sidebar */
+.app-body {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 220px;
+  background-color: #1e2228;
+  border-right: 2px solid #444;
   padding: 20px 0;
+  position: sticky;
+  top: 0;
+  height: calc(100vh - 82px); /* Adjust based on header height */
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: #ccc;
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+  background-color: #2a2f38;
+  color: white;
+}
+
+.nav-item.active {
+  background-color: #2a2f38;
+  color: #61dafb;
+  border-left-color: #61dafb;
+  font-weight: bold;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 20px 40px;
+  overflow-y: auto;
+}
+
+/* Under Construction Page */
+.under-construction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.under-construction h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #f0ad4e;
+}
+
+.under-construction p {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin: 10px 0;
 }
 
 /* Wallet Button */
@@ -55,13 +126,13 @@ main {
 }
 
 .submission-container {
-  flex: 3; /* The list column takes up the majority of the space */
+  flex: 4; /* The list column takes up more space */
   /* This column will contain the refresh button and the list */
 }
 
 .form-container {
-  flex: 1; /* The form column takes the remaining space */
-  min-width: 300px; /* Don't let the form get too squished */
+  flex: 0 0 280px; /* Fixed width instead of flexible */
+  max-width: 280px; /* Narrower form */
   
   /* --- THIS IS THE STICKY LOGIC --- */
   position: -webkit-sticky; /* For Safari */
