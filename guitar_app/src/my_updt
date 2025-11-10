@@ -1,0 +1,3 @@
+#!/bin/bash
+cp ../../guitar_contest/target/idl/guitar_contest.json idl
+cp ../../guitar_contest/target/types/guitar_contest.ts types

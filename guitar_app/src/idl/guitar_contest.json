@@ -1,0 +1,204 @@
+{
+  "address": "2Hg6qeZGBsMPDDM1RY65Ucwk5JbLrF3D3P9qdYbEfmSU",
+  "metadata": {
+    "name": "guitar_contest",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "create_submission",
+      "docs": [
+        "Instruction 1: Creates a new SubmissionAccount to host a video"
+      ],
+      "discriminator": [
+        85,
+        217,
+        61,
+        59,
+        157,
+        60,
+        175,
+        220
+      ],
+      "accounts": [
+        {
+          "name": "submission",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "youtube_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "update_submission",
+      "discriminator": [
+        177,
+        143,
+        162,
+        63,
+        208,
+        227,
+        103,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "submission",
+          "writable": true
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_title",
+          "type": "string"
+        },
+        {
+          "name": "new_youtube_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "vote",
+      "docs": [
+        "Instruction 2: Allows a user to vote for a submission.",
+        "This instruction uses a PDA (VoteReceipt) to prevent double voting."
+      ],
+      "discriminator": [
+        227,
+        110,
+        155,
+        23,
+        136,
+        126,
+        172,
+        25
+      ],
+      "accounts": [
+        {
+          "name": "submission",
+          "writable": true
+        },
+        {
+          "name": "vote_receipt",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "account",
+                "path": "submission"
+              }
+            ]
+          }
+        },
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "SubmissionAccount",
+      "discriminator": [
+        254,
+        14,
+        34,
+        50,
+        170,
+        36,
+        60,
+        191
+      ]
+    },
+    {
+      "name": "VoteReceipt",
+      "discriminator": [
+        104,
+        20,
+        204,
+        252,
+        45,
+        84,
+        37,
+        195
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotContestant",
+      "msg": "Only the original contestant can update this submission."
+    }
+  ],
+  "types": [
+    {
+      "name": "SubmissionAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "contestant",
+            "type": "pubkey"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "name": "youtube_id",
+            "type": "string"
+          },
+          {
+            "name": "vote_count",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoteReceipt",
+      "type": {
+        "kind": "struct",
+        "fields": []
+      }
+    }
+  ]
+}

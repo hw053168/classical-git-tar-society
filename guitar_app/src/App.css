@@ -1,0 +1,169 @@
+/* Basic Reset */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  background-color: #282c34;
+  color: white;
+}
+
+/* App Layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app-header {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid #444;
+}
+
+.app-header h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+main {
+  width: 90%;
+  max-width: 1200px;
+  padding: 20px 0;
+}
+
+/* Wallet Button */
+.wallet-adapter-button {
+  background-color: #61dafb !important;
+  color: #282c34 !important;
+  font-weight: bold !important;
+}
+
+/* --- STYLES FOR LAYOUT --- */
+.contest-body {
+  display: flex;
+  flex-direction: row; /* This creates the side-by-side layout */
+  width: 100%;
+  gap: 30px;
+  /* Make sure the container can be a reference for the sticky panel */
+  align-items: flex-start; 
+}
+
+.submission-container {
+  flex: 3; /* The list column takes up the majority of the space */
+  /* This column will contain the refresh button and the list */
+}
+
+.form-container {
+  flex: 1; /* The form column takes the remaining space */
+  min-width: 300px; /* Don't let the form get too squished */
+  
+  /* --- THIS IS THE STICKY LOGIC --- */
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 20px; /* Stick 20px from the top of the viewport */
+  align-self: flex-start; /* Aligns to the top of the flex container */
+  /* --- END STICKY LOGIC --- */
+}
+/* --- END NEW STYLES --- */
+
+
+/* Contest Components */
+.submission-form {
+  background-color: #3a3f4a;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.submission-form h2 {
+  margin: 0;
+}
+
+.submission-form input {
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+.submission-form button {
+  font-size: 1.1rem;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #61dafb;
+  color: #282c34;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submission-form button:disabled {
+  background-color: #4a4e57;
+  cursor: not-allowed;
+}
+
+/* --- THIS IS THE 3-COLUMN FIX --- */
+.submission-list {
+  display: grid;
+  /* This forces 3 equal-width, flexible columns */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+/* --- END FIX --- */
+
+
+/* --- MODIFIED: Removed fixed width --- */
+.submission-card {
+  background-color: #3a3f4a;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* width: 400px;  <-- REMOVED */
+  /* flex-shrink: 0; <-- REMOVED */
+}
+/* --- END MODIFIED --- */
+
+.video-embed {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
+.submission-info {
+  padding: 15px;
+}
+
+.submission-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+}
+
+.submission-info p {
+  margin: 0 0 15px 0;
+  color: #ccc;
+}
+
+/* Base styles for buttons inside the card */
+.submission-info button {
+  font-size: 1rem;
+  padding: 10px 15px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.submission-info button:disabled {
+  background-color: #4a4e57;
+  cursor: not-allowed;
+}
