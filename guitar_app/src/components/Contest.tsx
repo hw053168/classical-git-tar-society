@@ -147,11 +147,18 @@ export const Contest = () => {
     }
 
     const program = getProgram(connection, wallet);
-    // Find the unique VoteReceipt PDA for this user and this submission
-    const [voteReceiptPda, _] = PublicKey.findProgramAddressSync(
-      [wallet.publicKey.toBuffer(), submissionPubkey.toBuffer()],
-      PROGRAM_ID // This uses the program's ID
-    );
+    
+    // Get the submission to find the performer
+    const submission = submissions.find(s => s.publicKey.equals(submissionPubkey));
+    if (!submission) {
+      alert("Submission not found");
+      return;
+    }
+    
+    const performer = submission.account.contestant;
+    
+    // TAR token mint address
+    const TAR_MINT = new PublicKey("FD2ZQ6SJxQTFo4FfvXEy6Jiw9MA3KkXXdo39THCEe6iH");
 
     setLoading(true);
     try {
@@ -159,6 +166,8 @@ export const Contest = () => {
         .vote()
         .accounts({
           submission: submissionPubkey,
+          performer: performer,
+          tarMint: TAR_MINT,
           user: wallet.publicKey,
         })
         .rpc();
@@ -284,8 +293,8 @@ export const Contest = () => {
         </div>
 
         <div className="token-rewards-box">
-          <h3>🪙 PEG Token Rewards</h3>
-          <p className="token-rule">1 vote = 3 PEG</p>
+          <h3>🪙 TAR Token Rewards</h3>
+          <p className="token-rule">1 vote = 3 TAR</p>
         </div>
       </div>
     </div>

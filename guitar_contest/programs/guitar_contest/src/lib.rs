@@ -38,7 +38,7 @@ pub mod guitar_contest {
 
     /// Instruction 2: Allows a user to vote for a submission.
     /// This instruction uses a PDA (VoteReceipt) to prevent double voting.
-    /// Now also awards 3 PEG tokens to the performer (minted from the PEG token)
+    /// Now also awards 3 TAR tokens to the performer (minted from the TAR token)
     pub fn vote(ctx: Context<Vote>) -> Result<()> {
         // We get the submission account from the context and increment its vote count
         let submission = &mut ctx.accounts.submission;
@@ -57,18 +57,18 @@ pub mod guitar_contest {
         // to create this account because it already exists (PDA collision).
         submission.vote_count = submission.vote_count.checked_add(1).unwrap();
         
-        // If this is the first time the PERFORMER is receiving PEG,
+        // If this is the first time the PERFORMER is receiving TAR,
         // their authority will be the default (all zeros). Let's set it.
         // We get the contestant's Pubkey from the submission account.
         if performer_profile.authority == Pubkey::default() {
             performer_profile.authority = submission.contestant;
         }
 
-        // Reward the performer with 3 PEG tokens (increment counter)
-        performer_profile.peg_balance += 3;
+        // Reward the performer with 3 TAR tokens (increment counter)
+        performer_profile.tar_balance += 3;
 
-        // Mint 3 actual PEG tokens to the performer's token account
-        let peg_amount = 3 * 10u64.pow(ctx.accounts.peg_mint.decimals as u32); // Account for decimals
+        // Mint 3 actual TAR tokens to the performer's token account
+        let tar_amount = 3 * 10u64.pow(ctx.accounts.tar_mint.decimals as u32); // Account for decimals
         
         // Create the seeds for the mint authority PDA
         let seeds = &[
@@ -79,19 +79,19 @@ pub mod guitar_contest {
 
         // Mint tokens using CPI to the SPL Token program
         let cpi_accounts = MintTo {
-            mint: ctx.accounts.peg_mint.to_account_info(),
+            mint: ctx.accounts.tar_mint.to_account_info(),
             to: ctx.accounts.performer_token_account.to_account_info(),
             authority: ctx.accounts.mint_authority.to_account_info(),
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
         
-        token::mint_to(cpi_ctx, peg_amount)?;
+        token::mint_to(cpi_ctx, tar_amount)?;
 
         msg!("Vote successful for submission: {}", submission.key());
         msg!("Total votes: {}", submission.vote_count);
-        msg!("Performer {} now has {} PEG.", performer_profile.authority, performer_profile.peg_balance);
-        msg!("Minted {} PEG tokens to performer's token account", peg_amount);
+        msg!("Performer {} now has {} TAR.", performer_profile.authority, performer_profile.tar_balance);
+        msg!("Minted {} TAR tokens to performer's token account", tar_amount);
 
         Ok(())
     }
@@ -115,12 +115,12 @@ pub mod guitar_contest {
     }
 
     /// Instruction 3: Transfer mint authority to the program's PDA
-    /// This allows the program to mint PEG tokens as rewards
+    /// This allows the program to mint TAR tokens as rewards
     pub fn transfer_mint_authority(ctx: Context<TransferMintAuthority>) -> Result<()> {
         // Transfer the mint authority from the current authority (signer)
         // to the program's mint_authority PDA
         let cpi_accounts = token::SetAuthority {
-            account_or_mint: ctx.accounts.peg_mint.to_account_info(),
+            account_or_mint: ctx.accounts.tar_mint.to_account_info(),
             current_authority: ctx.accounts.current_authority.to_account_info(),
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
@@ -149,10 +149,10 @@ pub mod guitar_contest {
 
         // Calculate how many tokens to mint based on vote count
         let votes = submission.vote_count;
-        let peg_amount = (votes * 3) * 10u64.pow(ctx.accounts.peg_mint.decimals as u32);
+        let tar_amount = (votes * 3) * 10u64.pow(ctx.accounts.tar_mint.decimals as u32);
 
         // Update the profile balance
-        performer_profile.peg_balance = performer_profile.peg_balance
+        performer_profile.tar_balance = performer_profile.tar_balance
             .checked_add(votes * 3)
             .ok_or(ErrorCode::Overflow)?;
 
@@ -165,17 +165,17 @@ pub mod guitar_contest {
 
         // Mint tokens using CPI to the SPL Token program
         let cpi_accounts = MintTo {
-            mint: ctx.accounts.peg_mint.to_account_info(),
+            mint: ctx.accounts.tar_mint.to_account_info(),
             to: ctx.accounts.performer_token_account.to_account_info(),
             authority: ctx.accounts.mint_authority.to_account_info(),
         };
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
         
-        token::mint_to(cpi_ctx, peg_amount)?;
+        token::mint_to(cpi_ctx, tar_amount)?;
 
-        msg!("Backfilled {} PEG tokens for {} votes", peg_amount, votes);
-        msg!("Performer {} now has {} PEG balance", performer_profile.authority, performer_profile.peg_balance);
+        msg!("Backfilled {} TAR tokens for {} votes", tar_amount, votes);
+        msg!("Performer {} now has {} TAR balance", performer_profile.authority, performer_profile.tar_balance);
 
         Ok(())
     }
@@ -268,20 +268,20 @@ pub struct Vote<'info> {
     )]
     pub performer_profile: Account<'info, UserProfile>,
 
-    // The PEG token mint account
+    // The TAR token mint account
     #[account(mut)]
-    pub peg_mint: Account<'info, Mint>,
+    pub tar_mint: Account<'info, Mint>,
 
-    // The performer's associated token account for PEG tokens
+    // The performer's associated token account for TAR tokens
     #[account(
         init_if_needed,
         payer = user,
-        associated_token::mint = peg_mint,
+        associated_token::mint = tar_mint,
         associated_token::authority = performer,
     )]
     pub performer_token_account: Account<'info, TokenAccount>,
 
-    // The mint authority PDA that can mint PEG tokens
+    // The mint authority PDA that can mint TAR tokens
     /// CHECK: This is a PDA used as the mint authority
     #[account(
         seeds = [b"mint_authority"],
@@ -322,24 +322,24 @@ pub struct UpdateSubmission<'info> {
 
 //// --- NEW STRUCTS AND CONTEXTS ---
 // -----------------------------------------------------------------
-// 4. ACCOUNTS FOR PEG TOKENS 
+// 4. ACCOUNTS FOR TAR TOKENS 
 // -----------------------------------------------------------------
 
-// This is the new account that holds a user's PEG balance
+// This is the new account that holds a user's TAR balance
 #[account]
 pub struct UserProfile {
     pub authority: Pubkey,
-    pub peg_balance: u64,
+    pub tar_balance: u64,
 }
 
 // This is a generic context for any function that just needs to
-// create or modify a user's PEG balance.
+// create or modify a user's TAR balance.
 #[derive(Accounts)]
-pub struct ManagePegs<'info> {
+pub struct ManageTars<'info> {
     #[account(
         init_if_needed,
         payer = user,
-        space = 8 + 32 + 8, // 8(disc) + 32(authority) + 8(peg_balance)
+        space = 8 + 32 + 8, // 8(disc) + 32(authority) + 8(tar_balance)
         seeds = [b"profile", user.key().as_ref()],
         bump
     )]
@@ -367,9 +367,9 @@ pub enum ErrorCode {
 // -----------------------------------------------------------------
 #[derive(Accounts)]
 pub struct TransferMintAuthority<'info> {
-    // The PEG token mint account
+    // The TAR token mint account
     #[account(mut)]
-    pub peg_mint: Account<'info, Mint>,
+    pub tar_mint: Account<'info, Mint>,
 
     // The current mint authority (must sign this transaction)
     pub current_authority: Signer<'info>,
@@ -409,15 +409,15 @@ pub struct BackfillTokens<'info> {
     )]
     pub performer_profile: Account<'info, UserProfile>,
 
-    // The PEG token mint account
+    // The TAR token mint account
     #[account(mut)]
-    pub peg_mint: Account<'info, Mint>,
+    pub tar_mint: Account<'info, Mint>,
 
-    // The performer's associated token account for PEG tokens
+    // The performer's associated token account for TAR tokens
     #[account(
         init_if_needed,
         payer = payer,
-        associated_token::mint = peg_mint,
+        associated_token::mint = tar_mint,
         associated_token::authority = performer,
     )]
     pub performer_token_account: Account<'info, TokenAccount>,

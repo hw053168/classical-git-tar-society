@@ -6,7 +6,7 @@ export const UnderConstruction = ({ pageName, tokenRule }: { pageName: string; t
       <p>Check back soon for updates!</p>
       
       <div className="token-rewards-box">
-        <h3>🪙 PEG Token Rewards</h3>
+        <h3>🪙 TAR Token Rewards</h3>
         <p className="token-rule">{tokenRule}</p>
       </div>
     </div>

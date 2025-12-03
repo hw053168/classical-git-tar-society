@@ -34,13 +34,13 @@ function App() {
       case "competition":
         return <Contest />;
       case "composer":
-        return <UnderConstruction pageName="Composer Studio" tokenRule="1 published composition = 3 PEG" />;
+        return <UnderConstruction pageName="Composer Studio" tokenRule="1 published composition = 3 TAR" />;
       case "sheet-music":
-        return <UnderConstruction pageName="Sheet Music Exchange" tokenRule="1 sheet = 1 PEG" />;
+        return <UnderConstruction pageName="Sheet Music Exchange" tokenRule="1 sheet = 1 TAR" />;
       case "lesson-hub":
-        return <UnderConstruction pageName="Lesson Hub" tokenRule="1 booked lesson = 3 PEG" />;
+        return <UnderConstruction pageName="Lesson Hub" tokenRule="1 booked lesson = 3 TAR" />;
       case "discussion":
-        return <UnderConstruction pageName="Discussion Forum" tokenRule="Active participation earns PEG tokens" />;
+        return <UnderConstruction pageName="Discussion Forum" tokenRule="Active participation earns TAR tokens" />;
       default:
         return <Contest />;
     }
@@ -53,7 +53,7 @@ function App() {
           {/* Main App Layout */}
           <div className="app-container">
             <header className="app-header">
-              <h1>🎼 Classical Guitar Peg Society</h1>
+              <h1>🎼 Classical Guitar Tar Society</h1>
               <div className="wallet-balance-container">
                 <WalletMultiButton />
                 <TokenBalance />

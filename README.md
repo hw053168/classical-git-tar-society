@@ -1,10 +1,10 @@
-# Classical Guitar Peg Society (CGPS)
+# The Classical Git'TAR Society
 
 A decentralized platform for classical guitar performers built on Solana blockchain, featuring video submissions, community voting, and token-based rewards.
 
 ## 🎯 Project Overview
 
-The Classical Guitar Peg Society is a Web3 application that enables classical guitar performers to submit videos, receive votes from the community, and earn PEG tokens as rewards. The platform combines a React-based frontend with a Solana smart contract (Anchor program) to create a transparent, on-chain competition system.
+The Classical Guitar Tar Society is a Web3 application that enables classical guitar performers to submit videos, receive votes from the community, and earn TAR tokens as rewards. The platform combines a React-based frontend with a Solana smart contract (Anchor program) to create a transparent, on-chain competition system.
 
 ## 🏗️ Architecture
 
@@ -26,15 +26,15 @@ The Classical Guitar Peg Society is a Web3 application that enables classical gu
 - **Program ID**: `2Hg6qeZGBsMPDDM1RY65Ucwk5JbLrF3D3P9qdYbEfmSU`
 - **Token Integration**: SPL Token (anchor-spl)
 
-## 🪙 PEG Token Economics
+## 🪙 TAR Token Economics
 
-**PEG Token Mint Address**: `FD2ZQ6SJxQTFo4FfvXEy6Jiw9MA3KkXXdo39THCEe6iH`
+**TAR Token Mint Address**: `FD2ZQ6SJxQTFo4FfvXEy6Jiw9MA3KkXXdo39THCEe6iH`
 
 ### Token Reward Structure
-- **Competition**: 1 vote = 3 PEG tokens (to performer)
-- **Composer Studio**: 1 published composition = 3 PEG (planned)
-- **Sheet Music Exchange**: 1 sheet = 1 PEG (planned)
-- **Lesson Hub**: 1 booked lesson = 3 PEG (planned)
+- **Competition**: 1 vote = 3 TAR tokens (to performer)
+- **Composer Studio**: 1 published composition = 3 TAR (planned)
+- **Sheet Music Exchange**: 1 sheet = 1 TAR (planned)
+- **Lesson Hub**: 1 booked lesson = 3 TAR (planned)
 - **Discussion Forum**: Active participation rewards (planned)
 
 ### Token Features
@@ -81,9 +81,9 @@ The Classical Guitar Peg Society is a Web3 application that enables classical gu
 
 ### Phase 3: SPL Token Integration
 1. **Token Reward Planning**
-   - Decided on PEG token as reward mechanism
+   - Decided on TAR token as reward mechanism
    - Created token mint on Solana devnet
-   - Defined reward structure (3 PEG per vote)
+   - Defined reward structure (3 TAR per vote)
 
 2. **Smart Contract Updates**
    - Added `anchor-spl` dependency to Cargo.toml
@@ -91,7 +91,7 @@ The Classical Guitar Peg Society is a Web3 application that enables classical gu
    - Imported SPL Token modules: `Mint`, `Token`, `TokenAccount`, `MintTo`
 
 3. **Vote Instruction Enhancement**
-   - Modified `vote()` function to mint PEG tokens
+   - Modified `vote()` function to mint TAR tokens
    - Added performer account validation (must match submission.contestant)
    - Implemented mint authority PDA with seed: `b"mint_authority"`
    - Added Associated Token Account creation for performers
@@ -130,7 +130,7 @@ The Classical Guitar Peg Society is a Web3 application that enables classical gu
    - Fetches account data and parses token balance (bytes 64-72)
    - Converts raw amount using decimals (divide by 10^9)
    - Auto-refreshes every 10 seconds
-   - Displays balance next to wallet button: "🪙 X.XX PEG"
+   - Displays balance next to wallet button: "🪙 X.XX TAR"
 
 2. **UI Integration**
    - Added token rewards boxes to all pages
@@ -158,13 +158,13 @@ The Classical Guitar Peg Society is a Web3 application that enables classical gu
 4. **Script Configuration**
    - Added TypeScript scripts to Anchor.toml
    - Used `yarn run ts-node` instead of direct ts-node path
-   - Updated placeholder mint addresses with actual PEG mint address
+   - Updated placeholder mint addresses with actual TAR mint address
 
 5. **Backfill Account Initialization**
    - Fixed `performer_profile` to use `init_if_needed` instead of just `mut`
    - Fixed `performer_token_account` to use `init_if_needed`
    - Both fixes necessary for performers who never interacted with app before
-   - Successfully backfilled 3 PEG for 1 existing vote
+   - Successfully backfilled 3 TAR for 1 existing vote
 
 ## 📁 Project Structure
 
@@ -177,7 +177,7 @@ hw/
 │   │   ├── components/
 │   │   │   ├── Contest.tsx       # Competition page
 │   │   │   ├── UnderConstruction.tsx  # Placeholder pages
-│   │   │   └── WalletBalance.tsx # PEG token balance display
+│   │   │   └── WalletBalance.tsx # TAR token balance display
 │   │   └── idl/
 │   │       └── guitar_contest.json   # Generated IDL
 │   └── package.json
@@ -216,7 +216,7 @@ pub fn vote(ctx: Context<Vote>)
 - Creates VoteReceipt PDA (prevents double voting)
 - Increments submission.vote_count
 - Updates/creates voter and performer UserProfile
-- Mints 3 PEG tokens to performer's Associated Token Account
+- Mints 3 TAR tokens to performer's Associated Token Account
 - Uses PDA signer seeds for mint authority
 
 #### 3. update_submission
@@ -243,8 +243,8 @@ pub fn backfill_tokens(ctx: Context<BackfillTokens>)
 - Mints tokens based on existing vote_count
 - Creates performer profile if needed
 - Creates performer token account if needed
-- Updates performer_profile.peg_balance
-- Formula: `peg_amount = votes * 3 * 10^decimals`
+- Updates performer_profile.tar_balance
+- Formula: `tar_amount = votes * 3 * 10^decimals`
 
 ### Account Structures
 
@@ -262,7 +262,7 @@ pub struct SubmissionAccount {
 ```rust
 pub struct UserProfile {
     pub authority: Pubkey,     // 32 bytes
-    pub peg_balance: u64,      // 8 bytes (counter, not actual balance)
+    pub tar_balance: u64,      // 8 bytes (counter, not actual balance)
 }
 ```
 
@@ -299,7 +299,7 @@ const tx = await program.methods
 #### Token Balance Fetching
 ```typescript
 const [tokenAccountAddress] = await PublicKey.findProgramAddress(
-  [publicKey.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), PEG_MINT_ADDRESS.toBuffer()],
+  [publicKey.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), TAR_MINT_ADDRESS.toBuffer()],
   ASSOCIATED_TOKEN_PROGRAM_ID
 );
 const accountInfo = await connection.getAccountInfo(tokenAccountAddress);
@@ -319,8 +319,8 @@ const balance = accountInfo.data.slice(64, 72).readBigUInt64LE(0) / 1e9;
 
 ```bash
 # Clone repository
-git clone https://github.com/hw053168/CGPS.git
-cd CGPS
+git clone https://github.com/hw053168/classical-git-tar-society.git
+cd classical-git-tar-society
 
 # Install frontend dependencies
 cd guitar_app
@@ -359,7 +359,7 @@ npm run dev
 - **Network**: Solana Devnet
 - **Cluster URL**: https://api.devnet.solana.com
 - **Program ID**: 2Hg6qeZGBsMPDDM1RY65Ucwk5JbLrF3D3P9qdYbEfmSU
-- **PEG Token Mint**: FD2ZQ6SJxQTFo4FfvXEy6Jiw9MA3KkXXdo39THCEe6iH
+- **TAR Token Mint**: FD2ZQ6SJxQTFo4FfvXEy6Jiw9MA3KkXXdo39THCEe6iH
 - **SPL Token Program**: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
 - **Associated Token Program**: ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL
 
@@ -378,7 +378,7 @@ npm run dev
 - [x] Program deployment to devnet
 
 ### In Progress 🚧
-- [ ] Frontend vote integration with new accounts (performer, peg_mint, etc.)
+- [ ] Frontend vote integration with new accounts (performer, tar_mint, etc.)
 - [ ] Testing token minting with new votes
 
 ### Planned Features 📋
@@ -439,7 +439,7 @@ MIT
 
 **hw053168**
 - GitHub: [@hw053168](https://github.com/hw053168)
-- Repository: [CGPS](https://github.com/hw053168/CGPS)
+- Repository: [classical-git-tar-society](https://github.com/hw053168/classical-git-tar-society)
 
 ---
 

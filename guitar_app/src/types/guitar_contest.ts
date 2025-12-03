@@ -64,7 +64,7 @@ export type GuitarContest = {
           }
         },
         {
-          "name": "pegMint",
+          "name": "tarMint",
           "writable": true
         },
         {
@@ -115,7 +115,7 @@ export type GuitarContest = {
               },
               {
                 "kind": "account",
-                "path": "pegMint"
+                "path": "tarMint"
               }
             ],
             "program": {
@@ -249,7 +249,7 @@ export type GuitarContest = {
       "name": "transferMintAuthority",
       "docs": [
         "Instruction 3: Transfer mint authority to the program's PDA",
-        "This allows the program to mint PEG tokens as rewards"
+        "This allows the program to mint TAR tokens as rewards"
       ],
       "discriminator": [
         87,
@@ -263,7 +263,7 @@ export type GuitarContest = {
       ],
       "accounts": [
         {
-          "name": "pegMint",
+          "name": "tarMint",
           "writable": true
         },
         {
@@ -342,7 +342,7 @@ export type GuitarContest = {
       "docs": [
         "Instruction 2: Allows a user to vote for a submission.",
         "This instruction uses a PDA (VoteReceipt) to prevent double voting.",
-        "Now also awards 3 PEG tokens to the performer (minted from the PEG token)"
+        "Now also awards 3 TAR tokens to the performer (minted from the TAR token)"
       ],
       "discriminator": [
         227,
@@ -430,7 +430,7 @@ export type GuitarContest = {
           }
         },
         {
-          "name": "pegMint",
+          "name": "tarMint",
           "writable": true
         },
         {
@@ -481,7 +481,7 @@ export type GuitarContest = {
               },
               {
                 "kind": "account",
-                "path": "pegMint"
+                "path": "tarMint"
               }
             ],
             "program": {
@@ -658,7 +658,7 @@ export type GuitarContest = {
             "type": "pubkey"
           },
           {
-            "name": "pegBalance",
+            "name": "tarBalance",
             "type": "u64"
           }
         ]

@@ -58,7 +58,7 @@
           }
         },
         {
-          "name": "peg_mint",
+          "name": "tar_mint",
           "writable": true
         },
         {
@@ -109,7 +109,7 @@
               },
               {
                 "kind": "account",
-                "path": "peg_mint"
+                "path": "tar_mint"
               }
             ],
             "program": {
@@ -243,7 +243,7 @@
       "name": "transfer_mint_authority",
       "docs": [
         "Instruction 3: Transfer mint authority to the program's PDA",
-        "This allows the program to mint PEG tokens as rewards"
+        "This allows the program to mint TAR tokens as rewards"
       ],
       "discriminator": [
         87,
@@ -257,7 +257,7 @@
       ],
       "accounts": [
         {
-          "name": "peg_mint",
+          "name": "tar_mint",
           "writable": true
         },
         {
@@ -336,7 +336,7 @@
       "docs": [
         "Instruction 2: Allows a user to vote for a submission.",
         "This instruction uses a PDA (VoteReceipt) to prevent double voting.",
-        "Now also awards 3 PEG tokens to the performer (minted from the PEG token)"
+        "Now also awards 3 TAR tokens to the performer (minted from the TAR token)"
       ],
       "discriminator": [
         227,
@@ -424,7 +424,7 @@
           }
         },
         {
-          "name": "peg_mint",
+          "name": "tar_mint",
           "writable": true
         },
         {
@@ -475,7 +475,7 @@
               },
               {
                 "kind": "account",
-                "path": "peg_mint"
+                "path": "tar_mint"
               }
             ],
             "program": {
@@ -652,7 +652,7 @@
             "type": "pubkey"
           },
           {
-            "name": "peg_balance",
+            "name": "tar_balance",
             "type": "u64"
           }
         ]

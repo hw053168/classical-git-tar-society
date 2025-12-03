@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 
-// Replace this with your actual PEG token mint address
-const PEG_MINT_ADDRESS = new PublicKey("FD2ZQ6SJxQTFo4FfvXEy6Jiw9MA3KkXXdo39THCEe6iH");
+// Replace this with your actual TAR token mint address
+const TAR_MINT_ADDRESS = new PublicKey("FD2ZQ6SJxQTFo4FfvXEy6Jiw9MA3KkXXdo39THCEe6iH");
 
 export const TokenBalance = () => {
   const { connection } = useConnection();
@@ -25,7 +25,7 @@ export const TokenBalance = () => {
           [
             publicKey.toBuffer(),
             new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA").toBuffer(),
-            PEG_MINT_ADDRESS.toBuffer(),
+            TAR_MINT_ADDRESS.toBuffer(),
           ],
           new PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL")
         );
@@ -68,8 +68,8 @@ export const TokenBalance = () => {
       {loading ? (
         <span>Loading...</span>
       ) : (
-        <span className="peg-balance">
-          🪙 {balance !== null ? balance.toFixed(2) : "0.00"} PEG
+        <span className="tar-balance">
+          🪙 {balance !== null ? balance.toFixed(2) : "0.00"} TAR
         </span>
       )}
     </div>
