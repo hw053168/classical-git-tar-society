@@ -5,17 +5,17 @@ This project is a Solana-based decentralized application for classical guitarist
 ## 🏗️ Architecture & Project Structure
 
 *   **Monorepo Structure**:
-    *   `guitar_app/`: Frontend application (React + Vite + TypeScript).
-    *   `guitar_contest/`: Backend smart contract (Solana Anchor Framework + Rust).
-    *   `scripts/`: Admin and utility scripts (TypeScript).
+    *   `frontend/`: Frontend application (React + Vite + TypeScript).
+    *   `backend/`: Backend smart contract (Solana Anchor Framework + Rust).
+    *   `backend/scripts/`: Admin and utility scripts (TypeScript).
 
-*   **Frontend (`guitar_app`)**:
+*   **Frontend (`frontend/`)**:
     *   **Stack**: React, TypeScript, Vite, `@solana/wallet-adapter-react`, `@coral-xyz/anchor`.
     *   **Styling**: Standard CSS (avoid Tailwind unless explicitly requested).
     *   **State Management**: React `useState`/`useEffect` + Wallet Adapter Context.
     *   **Navigation**: Custom sidebar navigation switching between components (Competition, Composer Studio, Sheet Music Exchange, Lesson Hub, Discussion Forum, Quiz Bowl).
 
-*   **Backend (`guitar_contest`)**:
+*   **Backend (`backend/`)**:
     *   **Stack**: Anchor v0.32.1 on Solana.
     *   **Token**: TAR Token (SPL Token).
     *   **Program ID**: `2Hg6qeZGBsMPDDM1RY65Ucwk5JbLrF3D3P9qdYbEfmSU` (Devnet).
@@ -25,16 +25,16 @@ This project is a Solana-based decentralized application for classical guitarist
 
 ### IDL Synchronization
 When updating the Anchor program:
-1.  Run `anchor build` in `guitar_contest/`.
+1.  Run `anchor build` in `backend/`.
 2.  **CRITICAL**: Copy generated artifacts to frontend to keep them in sync.
-    *   `cp guitar_contest/target/idl/guitar_contest.json guitar_app/src/idl/guitar_contest.json`
-    *   `cp guitar_contest/target/types/guitar_contest.ts guitar_app/src/types/guitar_contest.ts`
+    *   `cp backend/target/idl/guitar_contest.json frontend/src/idl/guitar_contest.json`
+    *   `cp backend/target/types/guitar_contest.ts frontend/src/types/guitar_contest.ts`
 3.  Frontend components import IDL from local `src/idl/` and types from `src/types/`.
 
 ### Development
-*   **Frontend**: `cd guitar_app && npm run dev` (Runs on port 5173).
-*   **Backend**: `cd guitar_contest && anchor build`.
-*   **Deployment**: `cd guitar_contest && anchor deploy`.
+*   **Frontend**: `cd frontend && npm run dev` (Runs on port 5173).
+*   **Backend**: `cd backend && anchor build`.
+*   **Deployment**: `cd backend && anchor deploy`.
 
 ## 🧩 Key Patterns & Conventions
 

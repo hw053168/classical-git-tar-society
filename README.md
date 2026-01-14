@@ -1,14 +1,14 @@
 # The Classical Git'TAR Society
 
-A decentralized platform for classical guitar performers built on Solana blockchain, featuring video submissions, community voting, and token-based rewards.
+A decentralized platform for classical guitarists built on Solana blockchain, featuring competitions, quizzes, lessons, sheet music exchange, and TAR token rewards.
 
 ## 🎯 Project Overview
 
-The Classical Git'Tar Society is a Web3 application that enables classical guitar performers to submit videos, receive votes from the community, and earn TAR tokens as rewards. The platform combines a React-based frontend with a Solana smart contract (Anchor program) to create a transparent, on-chain competition system featuring six main sections: Competition, Composer Studio, Sheet Music Exchange, Lesson Hub, Discussion Forum, and Quiz Bowl.
+The Classical Git'TAR Society is a Web3 platform where classical guitarists can compete, learn, and collaborate. Users earn TAR tokens through community engagement — submitting performances, voting, sharing compositions, and more. Built with a React frontend and Solana smart contract (Anchor), the platform features six sections: Competition, Composer Studio, Sheet Music Exchange, Lesson Hub, Discussion Forum, and Quiz Bowl.
 
 ## 🏗️ Architecture
 
-### Frontend (guitar_app)
+### Frontend (frontend/)
 - **Framework**: React + TypeScript + Vite
 - **Wallet Integration**: Solana Wallet Adapter
 - **Network**: Solana Devnet
@@ -18,9 +18,10 @@ The Classical Git'Tar Society is a Web3 application that enables classical guita
   - Token balance display
   - Video submission and voting interface
   - YouTube video embedding
-  - Placeholder pages for future features
+  - Quiz Bowl trivia system
+  - Placeholder pages for upcoming features
 
-### Backend (guitar_contest)
+### Backend (backend/)
 - **Framework**: Anchor v0.32.1
 - **Language**: Rust
 - **Network**: Solana Devnet
@@ -37,7 +38,7 @@ The Classical Git'Tar Society is a Web3 application that enables classical guita
 - **Sheet Music Exchange**: 1 sheet = 1 TAR (planned)
 - **Lesson Hub**: 1 booked lesson = 3 TAR (planned)
 - **Discussion Forum**: Active participation rewards (planned)
-- **Quiz Bowl**: Correct answers earn TAR tokens (planned)
+- **Quiz Bowl**: Correct answers earn TAR tokens (active)
 
 ### Token Features
 - Decimals: 9
@@ -75,10 +76,10 @@ The Classical Git'Tar Society is a Web3 application that enables classical guita
 - Planned reward: TAR tokens for active participation
 - Will include topics, threads, and reputation system
 
-### 6. Quiz Bowl (Placeholder)
-- *Coming Soon*: Classical guitar trivia and knowledge tests
-- Planned reward: TAR tokens for correct answers
-- Will feature timed quizzes and leaderboards
+### 6. Quiz Bowl (Active)
+- Classical guitar trivia and knowledge tests
+- Reward: TAR tokens for correct answers
+- Features timed quizzes and leaderboards
 
 ## 🚀 Development Journey
 
@@ -162,7 +163,7 @@ The Classical Git'Tar Society is a Web3 application that enables classical guita
    - Added to Anchor.toml for easy execution: `anchor run backfill-tokens`
 
 ### Phase 5: Token Balance Display
-1. **TokenBalance Component**
+1. **WalletBalance Component**
    - Created WalletBalance.tsx component
    - Derives Associated Token Account address using PDA derivation
    - Fetches account data and parses token balance (bytes 64-72)
@@ -207,30 +208,39 @@ The Classical Git'Tar Society is a Web3 application that enables classical guita
 ## 📁 Project Structure
 
 ```
-hw/
-├── guitar_app/                    # React frontend
+classical-git-tar-society/
+├── frontend/                      # React frontend
 │   ├── src/
 │   │   ├── App.tsx               # Main app with routing
 │   │   ├── App.css               # Styles including sidebar
 │   │   ├── components/
 │   │   │   ├── Contest.tsx       # Competition page
+│   │   │   ├── Leaderboard.tsx   # Leaderboard display
+│   │   │   ├── QuizBowl.tsx      # Quiz Bowl feature
 │   │   │   ├── UnderConstruction.tsx  # Placeholder pages
 │   │   │   └── WalletBalance.tsx # TAR token balance display
-│   │   └── idl/
-│   │       └── guitar_contest.json   # Generated IDL
+│   │   ├── idl/
+│   │   │   └── guitar_contest.json   # Generated IDL
+│   │   └── types/
+│   │       └── guitar_contest.ts # Generated TypeScript types
 │   └── package.json
 │
-├── guitar_contest/               # Anchor/Solana program
+├── backend/                       # Anchor/Solana program
 │   ├── programs/guitar_contest/
 │   │   └── src/
 │   │       └── lib.rs           # Smart contract code
 │   ├── scripts/
 │   │   ├── transfer-mint-authority.ts  # Mint authority setup
 │   │   └── backfill-tokens.ts   # Retroactive token minting
+│   ├── target/
+│   │   ├── idl/                 # Generated IDL
+│   │   └── types/               # Generated types
 │   ├── Anchor.toml              # Anchor configuration
 │   └── Cargo.toml               # Rust dependencies
 │
-└── .gitignore                    # Git ignore patterns
+├── .github/
+│   └── copilot-instructions.md  # AI assistant instructions
+└── guitar_app.code-workspace    # VS Code workspace config
 ```
 
 ## 🔧 Technical Implementation Details
@@ -361,11 +371,11 @@ git clone https://github.com/oliver26nyc/classical-git-tar-society.git
 cd classical-git-tar-society
 
 # Install frontend dependencies
-cd guitar_app
+cd frontend
 npm install
 
 # Install contract dependencies
-cd ../guitar_contest
+cd ../backend
 yarn install
 
 # Build Anchor program
@@ -388,7 +398,7 @@ anchor run backfill-tokens
 ### Running Frontend
 
 ```bash
-cd guitar_app
+cd frontend
 npm run dev
 ```
 
@@ -425,9 +435,8 @@ npm run dev
 - [ ] Sheet Music Exchange: PDF marketplace with search
 - [ ] Lesson Hub: Instructor profiles and booking calendar
 - [ ] Discussion Forum: Threading, replies, and moderation
-- [ ] Quiz Bowl: Trivia engine and scoring system
 - [ ] Profile pages for performers
-- [ ] Leaderboard system
+- [ ] Leaderboard: Rankings and stats display
 - [ ] NFT badges for achievements
 - [ ] Mainnet deployment
 
@@ -482,7 +491,6 @@ MIT
 
 **oliver26nyc**
 - GitHub: [@oliver26nyc](https://github.com/oliver26nyc)
-
 - Repository: [classical-git-tar-society](https://github.com/oliver26nyc/classical-git-tar-society)
 
 ---
